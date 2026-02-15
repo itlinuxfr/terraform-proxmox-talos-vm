@@ -44,6 +44,10 @@ variable "vm_machine_type" {
   type        = string
   default     = "q35"
   description = "Machine type (q35 recommended for Talos)"
+  validation {
+    condition     = contains(["q35", "i440fx"], var.vm_machine_type)
+    error_message = "Machine type must be either q35 or i440fx."
+  }
 }
 
 variable "vm_bios" {
@@ -60,6 +64,10 @@ variable "vm_scsi_hardware" {
   type        = string
   default     = "virtio-scsi-pci"
   description = "SCSI controller model (virtio-scsi-pci recommended for Talos)"
+  validation {
+    condition     = contains(["virtio-scsi-pci", "virtio-scsi-single"], var.vm_scsi_hardware)
+    error_message = "SCSI hardware must be virtio-scsi-pci or virtio-scsi-single."
+  }
 }
 
 variable "vm_cpu_type" {
@@ -72,18 +80,30 @@ variable "vm_sockets" {
   type        = number
   default     = 1
   description = "Number of CPU sockets"
+  validation {
+    condition     = var.vm_sockets >= 1
+    error_message = "Sockets must be at least 1."
+  }
 }
 
 variable "vm_cores" {
   type        = number
   default     = 2
   description = "Number of CPU cores per socket"
+  validation {
+    condition     = var.vm_cores >= 1
+    error_message = "Cores must be at least 1."
+  }
 }
 
 variable "vm_memory" {
   type        = number
   default     = 2048
   description = "Memory in MiB"
+  validation {
+    condition     = var.vm_memory >= 512
+    error_message = "Memory must be at least 512 MiB."
+  }
 }
 
 variable "vm_iso" {
@@ -112,6 +132,12 @@ variable "vm_network" {
       model  = "virtio"
     }
   ]
+  validation {
+    condition = alltrue([
+      for net in var.vm_network : contains(["virtio", "e1000", "vmxnet3", "rtl8139"], net.model)
+    ])
+    error_message = "Network model must be one of: virtio, e1000, vmxnet3, rtl8139."
+  }
 }
 
 variable "vm_disks" {
@@ -128,6 +154,24 @@ variable "vm_disks" {
   validation {
     condition     = length(var.vm_disks) > 0
     error_message = "At least one disk must be defined."
+  }
+  validation {
+    condition = alltrue([
+      for disk in var.vm_disks : contains(["scsi", "virtio", "sata", "ide"], disk.interface)
+    ])
+    error_message = "Disk interface must be one of: scsi, virtio, sata, ide."
+  }
+  validation {
+    condition = alltrue([
+      for disk in var.vm_disks : contains(["raw", "qcow2", "vmdk"], disk.format)
+    ])
+    error_message = "Disk format must be one of: raw, qcow2, vmdk."
+  }
+  validation {
+    condition = alltrue([
+      for disk in var.vm_disks : disk.size_gb > 0
+    ])
+    error_message = "Disk size must be greater than 0 GB."
   }
 }
 
