@@ -29,7 +29,6 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   cdrom {
-    enabled   = true
     file_id   = var.vm_iso
     interface = "ide2"
   }
