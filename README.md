@@ -70,6 +70,7 @@ No modules.
 | <a name="input_proxmox_node"></a> [proxmox\_node](#input\_proxmox\_node) | Target Proxmox Node Name | `string` | n/a | yes |
 | <a name="input_vm_bios"></a> [vm\_bios](#input\_vm\_bios) | BIOS type (seabios or ovmf) | `string` | `"seabios"` | no |
 | <a name="input_vm_cloudinit_datastore"></a> [vm\_cloudinit\_datastore](#input\_vm\_cloudinit\_datastore) | Datastore for Cloud-Init drive | `string` | `null` | no |
+| <a name="input_vm_cloudinit_interface"></a> [vm\_cloudinit\_interface](#input\_vm\_cloudinit\_interface) | Interface for Cloud-Init drive (e.g., scsi30, ide3) | `string` | `"scsi30"` | no |
 | <a name="input_vm_cloudinit_ip_config"></a> [vm\_cloudinit\_ip\_config](#input\_vm\_cloudinit\_ip\_config) | Cloud-Init IP Configuration (list of configs matching network interfaces) | <pre>list(object({<br/>    ipv4 = object({<br/>      address = string<br/>      gateway = optional(string)<br/>    })<br/>  }))</pre> | `[]` | no |
 | <a name="input_vm_cores"></a> [vm\_cores](#input\_vm\_cores) | Number of CPU cores per socket | `number` | `2` | no |
 | <a name="input_vm_cpu_type"></a> [vm\_cpu\_type](#input\_vm\_cpu\_type) | CPU type (host recommended for performance) | `string` | `"host"` | no |
