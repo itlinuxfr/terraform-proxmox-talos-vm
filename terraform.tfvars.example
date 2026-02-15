@@ -1,0 +1,24 @@
+proxmox_node   = "pve-01"
+vm_name        = "talos-worker-01"
+vm_iso         = "local:iso/talos-v1.11.3.iso"
+
+vm_cores     = 4
+vm_memory    = 8192
+vm_cpu_type  = "host"
+
+vm_network = [
+  {
+    bridge = "vmbr0"
+    model  = "virtio"
+  }
+]
+
+vm_disks = [
+  {
+    datastore_id = "local-lvm"
+    interface    = "scsi0"
+    size_gb      = 40
+    ssd          = true
+    discard      = true
+  }
+]
