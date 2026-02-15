@@ -51,7 +51,7 @@ module "talos_vm" {
 
 | Name | Version |
 |------|---------|
-| <a name="provider_proxmox"></a> [proxmox](#provider\_proxmox) | 0.70.1 |
+| <a name="provider_proxmox"></a> [proxmox](#provider\_proxmox) | ~> 0.70.0 |
 
 ## Modules
 
