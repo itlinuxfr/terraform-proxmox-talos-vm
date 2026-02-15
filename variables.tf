@@ -157,9 +157,9 @@ variable "vm_disks" {
   }
   validation {
     condition = alltrue([
-      for disk in var.vm_disks : contains(["scsi", "virtio", "sata", "ide"], disk.interface)
+      for disk in var.vm_disks : can(regex("^(scsi|virtio|sata|ide)\\d+$", disk.interface))
     ])
-    error_message = "Disk interface must be one of: scsi, virtio, sata, ide."
+    error_message = "Disk interface must be one of: scsiN, virtioN, sataN, ideN (e.g., scsi0)."
   }
   validation {
     condition = alltrue([
