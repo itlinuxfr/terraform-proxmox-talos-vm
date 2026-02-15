@@ -176,6 +176,12 @@ variable "vm_disks" {
 }
 
 # Cloud-Init for Static IP bootstrapping (Talos can use this or kernel args)
+variable "vm_cloudinit_interface" {
+  type        = string
+  description = "Interface for Cloud-Init drive (e.g., scsi30, ide3)"
+  default     = "scsi30"
+}
+
 variable "vm_cloudinit_datastore" {
   type        = string
   description = "Datastore for Cloud-Init drive"

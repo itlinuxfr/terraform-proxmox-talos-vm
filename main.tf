@@ -68,6 +68,8 @@ resource "proxmox_virtual_environment_vm" "this" {
     for_each = var.vm_cloudinit_datastore != null ? [1] : []
     content {
       datastore_id = var.vm_cloudinit_datastore
+      interface    = var.vm_cloudinit_interface
+
 
       dynamic "ip_config" {
         for_each = var.vm_cloudinit_ip_config
