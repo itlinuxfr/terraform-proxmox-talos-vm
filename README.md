@@ -31,7 +31,15 @@ Defaults: BIOS boot (no SecureBoot, no TPM), q35 machine, host CPU with 2 cores,
 a boot order of the first disk then the CD-ROM. On the first boot the empty disk is skipped, so the image takes over, and the installed system boots afterwards.
 SecureBoot and the TPM are opt-in (`firmware = { bios = "ovmf" }` and `tpm = {}`) and need a SecureBoot image.
 
-See the [`examples/`](examples/) directory for an ISO node, a SecureBoot node with a TPM, and a node created from a disk image.
+See the [`examples/`](examples/) directory for an ISO node, a SecureBoot node with a TPM, a node created from a disk image, and nodes spread across a Proxmox cluster.
+
+## In a Proxmox cluster
+`node_name` is a variable, so each VM can run on a different Proxmox node: put the node in the map that drives `for_each` (see `examples/multi-node`).
+- A VM ID must be unique in the whole cluster.
+- A datastore that is local to each node keeps its own files: download the boot image or the disk image once per node. A shared datastore needs one download.
+- An SDN VNet belongs to the whole zone, so the bridge name is the same on every node.
+- The `node_name` output gives the Proxmox node of each VM, for example for the topology zone label of `proxmox-csi-plugin`.
+- The module does not configure Proxmox high availability.
 
 ## Upgrading from the previous version
 The variables were renamed and regrouped (`vm_name` is now `name`, `proxmox_node` is `node_name`, `vm_disks` is `disks`, and so on).
